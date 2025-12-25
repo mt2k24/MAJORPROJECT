@@ -133,7 +133,7 @@ app.use("/", userRouter);
 /***************************************************
  * 1️⃣3️⃣ HANDLE UNKNOWN ROUTES (404)
  ***************************************************/
-app.all("/*", (req, res, next) => {
+app.use((req, res, next) => {
     next(new ExpressError(404, "Page Not Found"));
 });
 
