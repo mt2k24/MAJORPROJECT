@@ -1,0 +1,168 @@
+<% layout("/layouts/boilerplate") -%>
+
+<!-- =====================================================
+     CREATE NEW LISTING FORM
+     Purpose:
+     - Add a new property/listing
+     - Save all required details including category
+====================================================== -->
+
+<div class="form-container">
+
+  <!-- Page Heading -->
+  <h2>
+    <i class="fas fa-plus-circle"></i> Create a New Listing
+  </h2>
+
+  <!-- ================= FORM ================= -->
+  <form
+    method="POST"
+    action="/listings"
+    class="needs-validation"
+    novalidate
+    enctype="multipart/form-data"
+  >
+
+    <!-- ===== TITLE ===== -->
+    <div class="mb-3">
+      <label for="title" class="form-label">
+        <i class="fas fa-heading"></i> Title
+      </label>
+
+      <input
+        id="title"
+        name="listing[title]"
+        type="text"
+        class="form-control"
+        placeholder="Enter a catchy title for your listing"
+        required
+      >
+    </div>
+
+    <!-- ===== DESCRIPTION ===== -->
+    <div class="mb-3">
+      <label for="description" class="form-label">
+        <i class="fas fa-align-left"></i> Description
+      </label>
+
+      <textarea
+        id="description"
+        name="listing[description]"
+        class="form-control"
+        rows="4"
+        placeholder="Describe your listing in detail..."
+        required
+      ></textarea>
+    </div>
+
+    <!-- ===== IMAGE UPLOAD ===== -->
+    <!-- Image URL option removed, using file upload only -->
+    <div class="mb-3">
+      <label for="image" class="form-label">
+        <i class="fas fa-image"></i> Upload Image
+      </label>
+
+      <input
+        id="image"
+        name="listing[image]"
+        type="file"
+        class="form-control"
+        required
+      >
+    </div>
+
+    <!-- ===== PRICE ===== -->
+    <div class="mb-3">
+      <label for="price" class="form-label">
+        <i class="fa-solid fa-indian-rupee-sign"></i> Price
+      </label>
+
+      <input
+        id="price"
+        name="listing[price]"
+        type="number"
+        class="form-control"
+        placeholder="Enter price (e.g., 1500)"
+        min="0"
+        step="0.01"
+        required
+      >
+    </div>
+
+    <!-- ===== CATEGORY (IMPORTANT FOR FILTERING) ===== -->
+    <div class="mb-3">
+      <label for="category" class="form-label">
+        <i class="fa-solid fa-list"></i> Category
+      </label>
+
+      <select
+        id="category"
+        name="listing[category]"
+        class="form-select"
+        required
+      >
+        <option value="">Select a category</option>
+
+        <option value="bedbreakfast">Bedrs&breakfasts</option>
+        <option value="camping">Camping</option>
+        <option value="beach">Beach</option>
+        <option value="castles">Castles</option>
+        <option value="mountain">Top of the world</option>
+        <option value="arctic">Arctic</option>
+        <option value="vineyards">Vineyards</option>
+        <option value="domes">Domes</option>
+        <option value="design">Design</option>
+        <option value="aframes">A-frames</option>
+        <option value="treehouses">Treehouses</option>
+        <option value="luxury">Luxury</option>
+        <option value="trending">Trending</option>
+        <option value="lakefront">Lakefront</option>
+        <option value="tinyhomes">Tiny homes</option>
+      </select>
+    </div>
+
+    <!-- ===== LOCATION DETAILS ===== -->
+    <div class="row">
+
+      <div class="col-md-6 mb-3">
+        <label for="country" class="form-label">
+          <i class="fas fa-flag"></i> Country
+        </label>
+
+        <input
+          id="country"
+          name="listing[country]"
+          type="text"
+          class="form-control"
+          placeholder="e.g., United States"
+          required
+        >
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label for="location" class="form-label">
+          <i class="fas fa-map-marker-alt"></i> Location
+        </label>
+
+        <input
+          id="location"
+          name="listing[location]"
+          type="text"
+          class="form-control"
+          placeholder="e.g., New York City"
+          required
+        >
+      </div>
+
+    </div>
+
+    <!-- ===== SUBMIT BUTTON ===== -->
+    <button type="submit" class="btn btn-primary">
+      <i class="fas fa-plus-circle"></i> Add Listing
+    </button>
+
+  </form>
+</div>
+
+<!-- Optional custom JS -->
+<script src="/js/script.js"></script>

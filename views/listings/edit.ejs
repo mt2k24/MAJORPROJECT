@@ -1,0 +1,223 @@
+<% layout("/layouts/boilerplate") -%>
+
+<!-- ================= EDIT LISTING FORM ================= -->
+<div class="form-container">
+
+  <!-- Page Heading -->
+  <h2>
+    <i class="fas fa-edit"></i> Edit Listing
+  </h2>
+  <p class="subtitle">Update your listing details below</p>
+
+  <!-- ================= FORM ================= -->
+  <!-- PUT request using method-override -->
+  <form
+    method="POST"
+    action="/listings/<%= listing._id %>?_method=PUT"
+    class="needs-validation"
+    novalidate
+    enctype="multipart/form-data"
+  >
+
+    <!-- ===== TITLE ===== -->
+    <div class="mb-3">
+      <label for="title" class="form-label">
+        <i class="fas fa-heading"></i> Title
+      </label>
+
+      <input
+        id="title"
+        name="listing[title]"
+        type="text"
+        class="form-control"
+        value="<%= listing.title %>"
+        placeholder="Enter title"
+        required
+      >
+    </div>
+
+    <!-- ===== DESCRIPTION ===== -->
+    <div class="mb-3">
+      <label for="description" class="form-label">
+        <i class="fas fa-align-left"></i> Description
+      </label>
+
+      <textarea
+        id="description"
+        name="listing[description]"
+        class="form-control"
+        rows="4"
+        placeholder="Enter description"
+        required
+      ><%= listing.description %></textarea>
+    </div>
+
+    <!-- ===== CURRENT IMAGE PREVIEW ===== -->
+    <div class="mb-3">
+      <p class="form-label">Current Listing Image</p>
+      <img
+        src="<%= originalImageUrl %>"
+        alt="Current listing image"
+        class="listing-img"
+      >
+    </div>
+
+    <!-- ===== UPLOAD NEW IMAGE (OPTIONAL) ===== -->
+    <div class="mb-3">
+      <label for="image" class="form-label">
+        <i class="fas fa-image"></i> Upload New Image
+      </label>
+
+      <input
+        id="image"
+        name="listing[image]"
+        type="file"
+        class="form-control"
+      >
+    </div>
+
+    <!-- ===== PRICE ===== -->
+    <div class="mb-3">
+      <label for="price" class="form-label">
+        <i class="fas fa-dollar-sign"></i> Price
+      </label>
+
+      <input
+        id="price"
+        name="listing[price]"
+        type="number"
+        class="form-control"
+        value="<%= listing.price %>"
+        placeholder="Enter price"
+        min="0"
+        step="0.01"
+        required
+      >
+    </div>
+
+    <!-- ===== CATEGORY (IMPORTANT FOR FILTERING) ===== -->
+    <div class="mb-3">
+      <label for="category" class="form-label">
+        <i class="fa-solid fa-list"></i> Category
+      </label>
+
+      <select
+        id="category"
+        name="listing[category]"
+        class="form-select"
+        required
+      >
+
+        <option value="bedbreakfast" <%= listing.category === "bedbreakfast" ? "selected" : "" %>>
+          Bed & breakfasts
+        </option>
+
+        <option value="camping" <%= listing.category === "camping" ? "selected" : "" %>>
+          Camping
+        </option>
+
+        <option value="beach" <%= listing.category === "beach" ? "selected" : "" %>>
+          Beach
+        </option>
+
+        <option value="castles" <%= listing.category === "castles" ? "selected" : "" %>>
+          Castles
+        </option>
+
+        <option value="mountain" <%= listing.category === "mountain" ? "selected" : "" %>>
+          Top of the world
+        </option>
+
+        <option value="arctic" <%= listing.category === "arctic" ? "selected" : "" %>>
+          Arctic
+        </option>
+
+        <option value="vineyards" <%= listing.category === "vineyards" ? "selected" : "" %>>
+          Vineyards
+        </option>
+
+        <option value="domes" <%= listing.category === "domes" ? "selected" : "" %>>
+          Domes
+        </option>
+
+        <option value="design" <%= listing.category === "design" ? "selected" : "" %>>
+          Design
+        </option>
+
+        <option value="aframes" <%= listing.category === "aframes" ? "selected" : "" %>>
+          A-frames
+        </option>
+
+        <option value="treehouses" <%= listing.category === "treehouses" ? "selected" : "" %>>
+          Treehouses
+        </option>
+
+        <option value="luxury" <%= listing.category === "luxury" ? "selected" : "" %>>
+          Luxury
+        </option>
+
+        <option value="trending" <%= listing.category === "trending" ? "selected" : "" %>>
+          Trending
+        </option>
+
+        <option value="lakefront" <%= listing.category === "lakefront" ? "selected" : "" %>>
+          Lakefront
+        </option>
+
+        <option value="tinyhomes" <%= listing.category === "tinyhomes" ? "selected" : "" %>>
+          Tiny homes
+        </option>
+
+      </select>
+    </div>
+
+    <!-- ===== LOCATION DETAILS ===== -->
+    <div class="row">
+
+      <div class="col-md-6 mb-3">
+        <label for="country" class="form-label">
+          <i class="fas fa-flag"></i> Country
+        </label>
+
+        <input
+          id="country"
+          name="listing[country]"
+          type="text"
+          class="form-control"
+          value="<%= listing.country %>"
+          placeholder="Enter country"
+          required
+        >
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label for="location" class="form-label">
+          <i class="fas fa-map-marker-alt"></i> Location
+        </label>
+
+        <input
+          id="location"
+          name="listing[location]"
+          type="text"
+          class="form-control"
+          value="<%= listing.location %>"
+          placeholder="Enter location"
+          required
+        >
+      </div>
+
+    </div>
+
+    <!-- ===== ACTION BUTTONS ===== -->
+    <div class="button-group">
+      <button type="submit" class="btn btn-primary">
+        <i class="fas fa-save"></i> Update Listing
+      </button>
+
+      <a href="/listings/<%= listing._id %>" class="btn btn-secondary">
+        <i class="fas fa-times"></i> Cancel
+      </a>
+    </div>
+
+  </form>
+</div>

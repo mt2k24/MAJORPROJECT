@@ -1,0 +1,37 @@
+/* Make card images curved */
+.card-img {
+  height: 20rem;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+/* Overlay background (dark transparent) */
+.overlay-bg {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+  border-radius: 15px;
+  padding: 1rem;
+}
+
+/* Card title styling */
+.card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-shadow: 0px 2px 4px rgba(0,0,0,0.7);
+}
+
+/* Card link removes underline */
+.card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Card hover effect */
+.card {
+  border: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0px 8px 20px rgba(0,0,0,0.2);
+}

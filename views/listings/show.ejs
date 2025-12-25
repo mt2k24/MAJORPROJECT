@@ -1,0 +1,235 @@
+<% layout("/layouts/boilerplate") -%>
+
+<!-- =====================================================
+     GLOBAL DATA FOR FRONTEND JS
+     Purpose:
+     - Send Mapbox token to frontend
+     - Send listing object to map.js
+===================================================== -->
+<script>
+  const mapToken = "<%= process.env.MAP_TOKEN %>";
+  const listing = <%- JSON.stringify(listing) %>;
+</script>
+
+<div class="container mt-5">
+
+  <!-- =====================================================
+       LISTING CARD (IMAGE + BASIC DETAILS)
+       Purpose:
+       - Show listing image
+       - Show title, price & location overlay
+  ====================================================== -->
+  <div class="card listing-card mx-auto mb-4">
+
+    <!-- IMAGE SECTION -->
+    <div class="listing-media">
+
+      <!-- Listing Image -->
+      <img
+        src="<%= listing.image.url %>"
+        alt="<%= listing.title %>"
+        class="listing-img"
+      >
+
+      <!-- Overlay on image -->
+      <div class="media-overlay">
+
+        <!-- Title & Price -->
+        <div class="d-flex justify-content-between align-items-start">
+          <h3 class="media-title"><%= listing.title %></h3>
+          <span class="price-badge">
+            ₹<%= listing.price.toLocaleString("en-IN") %>
+          </span>
+        </div>
+
+        <!-- Location -->
+        <div class="muted small d-flex align-items-center gap-2">
+          <i class="fa-solid fa-location-dot"></i>
+          <span>
+            <%= listing.location %>, <%= listing.country %>
+          </span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD BODY -->
+    <div class="card-body">
+
+      <!-- Owner -->
+      <p>
+        <strong>Owner:</strong>
+        <%= listing.owner.username %>
+      </p>
+
+      <!-- Description -->
+      <h5 class="section-title">About this listing</h5>
+      <p class="listing-description">
+        <%= listing.description %>
+      </p>
+
+      <!-- OWNER ACTION BUTTONS -->
+      <div class="d-flex justify-content-between align-items-center mt-4">
+
+        <% if (currUser && listing.owner._id.equals(currUser._id)) { %>
+          <div>
+            <!-- Edit -->
+            <a
+              href="/listings/<%= listing._id %>/edit"
+              class="btn btn-warning me-2"
+            >
+              Edit
+            </a>
+
+            <!-- Delete -->
+            <form
+              method="POST"
+              action="/listings/<%= listing._id %>?_method=DELETE"
+              class="d-inline"
+            >
+              <button
+                class="btn btn-danger"
+                onclick="return confirm('Delete this listing?')"
+              >
+                Delete
+              </button>
+            </form>
+          </div>
+        <% } %>
+
+        <!-- Back -->
+        <a href="/listings" class="btn btn-warning">
+          ← Back
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =====================================================
+       REVIEWS SECTION
+       Purpose:
+       - Add review (logged-in users)
+       - Show all reviews
+  ====================================================== -->
+  <div class="row mt-5 mb-5">
+    <div class="col-8 offset-2">
+
+      <hr>
+
+      <!-- ADD REVIEW FORM -->
+      <% if (currUser) { %>
+
+        <form action="/listings/<%= listing._id %>/reviews" method="POST">
+
+          <label class="form-label">Leave a Rating</label>
+
+          <!-- Star Rating -->
+          <fieldset class="starability-slot mb-3">
+            <input
+              type="radio"
+              id="no-rate"
+              class="input-no-rate"
+              name="review[rating]"
+              value="0"
+              checked
+            >
+
+            <% for (let i = 1; i <= 5; i++) { %>
+              <input
+                type="radio"
+                id="rate-<%= i %>"
+                name="review[rating]"
+                value="<%= i %>"
+              >
+              <label for="rate-<%= i %>"><%= i %></label>
+            <% } %>
+          </fieldset>
+
+          <!-- Comment -->
+          <textarea
+            name="review[comment]"
+            class="form-control mb-3"
+            rows="4"
+            required
+          ></textarea>
+
+          <button class="btn btn-outline-dark">
+            Submit
+          </button>
+        </form>
+
+        <hr>
+      <% } %>
+
+      <!-- ALL REVIEWS -->
+      <% if (listing.reviews.length > 0) { %>
+
+        <h4>All Reviews</h4>
+
+        <div class="row g-3">
+          <% for (let review of listing.reviews) { %>
+
+            <div class="col-md-6">
+              <div class="card h-100">
+                <div class="card-body">
+
+                  <!-- Reviewer -->
+                  <h6>
+                    <%= review.author ? review.author.username : "Unknown user" %>
+                  </h6>
+
+                  <!-- Rating -->
+                  <p
+                    class="starability-result"
+                    data-rating="<%= review.rating %>"
+                  ></p>
+
+                  <!-- Comment -->
+                  <p><%= review.comment %></p>
+
+                  <!-- Delete Review -->
+                  <% if (currUser && review.author && review.author._id.equals(currUser._id)) { %>
+                    <form
+                      method="POST"
+                      action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+                      class="d-inline"
+                    >
+                      <button class="btn btn-sm btn-danger">
+                        Delete
+                      </button>
+                    </form>
+                  <% } %>
+
+                </div>
+              </div>
+            </div>
+
+          <% } %>
+        </div>
+
+      <% } %>
+
+    </div>
+  </div>
+
+  <!-- =====================================================
+       MAP SECTION
+       Purpose:
+       - Show listing location on Mapbox map
+  ====================================================== -->
+  <div class="row mb-5">
+    <div class="col-8 offset-2">
+
+      <h3>Where you'll be</h3>
+
+      <!-- Map container -->
+      <div id="map"></div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- Mapbox JS -->
+<script src="/js/map.js"></script>

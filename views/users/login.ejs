@@ -1,0 +1,25 @@
+<% layout("/layouts/boilerplate") -%>
+
+    <div class="form-container">
+        <h2><i class="fas fa-plus-circle"></i> Login On Wondelast</h2>
+        <form action="/login" method="POST" class="needs-validation" novalidate>
+
+            <div class="mb-3">
+                <label for="username" class="form-label">
+                    <i class="fas fa-heading"></i> Username
+                </label>
+                <input name="username" id="username" type="text" class="form-control" placeholder="Username" required />
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">
+                    <i class="fas fa-heading"></i> Password
+                </label>
+                <input name="password" id="password" type="text" class="form-control" placeholder="Password" required />
+            </div>
+
+            <button type="Login" class="btn btn-primary">
+                <i class="fas fa-plus-circle"></i> Login
+            </button>
+        </form>
+    </div> 

@@ -1,0 +1,181 @@
+<% layout("/layouts/boilerplate") -%>
+
+  <!-- =====================================================
+     CATEGORY FILTER BAR
+     Purpose:
+     - Show listing categories (Airbnb-style)
+     - On click → filter listings by category
+     - Highlight currently selected category
+====================================================== -->
+
+  <div class="top-filter-bar">
+
+    <!-- ===== LEFT SCROLL BUTTON ===== -->
+    <button class="nav-btn" onclick="scrollCategories(-200)">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+
+    <!-- ===== CATEGORY LIST ===== -->
+    <div class="category-wrapper" id="categoryWrapper">
+
+      <!-- Bed & Breakfast -->
+      <a href="/listings?category=bedbreakfast" class="category <%= category === 'bedbreakfast' ? 'active' : '' %>">
+        <i class="fa-solid fa-mug-hot"></i>
+        <span>Bed & breakfasts</span>
+      </a>
+
+      <!-- Camping -->
+      <a href="/listings?category=camping" class="category <%= category === 'camping' ? 'active' : '' %>">
+        <i class="fa-solid fa-tent"></i>
+        <span>Camping</span>
+      </a>
+
+      <!-- Beach -->
+      <a href="/listings?category=beach" class="category <%= category === 'beach' ? 'active' : '' %>">
+        <i class="fa-solid fa-umbrella-beach"></i>
+        <span>Beach</span>
+      </a>
+
+      <!-- Castles -->
+      <a href="/listings?category=castles" class="category <%= category === 'castles' ? 'active' : '' %>">
+        <i class="fa-solid fa-chess-rook"></i>
+        <span>Castles</span>
+      </a>
+
+      <!-- Mountain -->
+      <a href="/listings?category=mountain" class="category <%= category === 'mountain' ? 'active' : '' %>">
+        <i class="fa-solid fa-mountain"></i>
+        <span>Top of the world</span>
+      </a>
+
+      <!-- Arctic -->
+      <a href="/listings?category=arctic" class="category <%= category === 'arctic' ? 'active' : '' %>">
+        <i class="fa-regular fa-snowflake"></i>
+        <span>Arctic</span>
+      </a>
+
+      <!-- Vineyards -->
+      <a href="/listings?category=vineyards" class="category <%= category === 'vineyards' ? 'active' : '' %>">
+        <i class="fa-solid fa-wine-glass"></i>
+        <span>Vineyards</span>
+      </a>
+
+      <!-- Domes -->
+      <a href="/listings?category=domes" class="category <%= category === 'domes' ? 'active' : '' %>">
+        <i class="fa-solid fa-igloo"></i>
+        <span>Domes</span>
+      </a>
+
+      <!-- Design -->
+      <a href="/listings?category=design" class="category <%= category === 'design' ? 'active' : '' %>">
+        <i class="fa-solid fa-pen-ruler"></i>
+        <span>Design</span>
+      </a>
+
+      <!-- A-frames -->
+      <a href="/listings?category=aframes" class="category <%= category === 'aframes' ? 'active' : '' %>">
+        <i class="fa-solid fa-house-chimney"></i>
+        <span>A-frames</span>
+      </a>
+
+      <!-- Treehouses -->
+      <a href="/listings?category=treehouses" class="category <%= category === 'treehouses' ? 'active' : '' %>">
+        <i class="fa-solid fa-tree"></i>
+        <span>Treehouses</span>
+      </a>
+
+      <!-- Luxury -->
+      <a href="/listings?category=luxury" class="category <%= category === 'luxury' ? 'active' : '' %>">
+        <i class="fa-solid fa-gem"></i>
+        <span>Luxury</span>
+      </a>
+
+      <!-- Trending -->
+      <a href="/listings?category=trending" class="category <%= category === 'trending' ? 'active' : '' %>">
+        <i class="fa-solid fa-fire"></i>
+        <span>Trending</span>
+      </a>
+
+      <!-- Lakefront -->
+      <a href="/listings?category=lakefront" class="category <%= category === 'lakefront' ? 'active' : '' %>">
+        <i class="fa-solid fa-water"></i>
+        <span>Lakefront</span>
+      </a>
+
+      <!-- Tiny Homes -->
+      <a href="/listings?category=tinyhomes" class="category <%= category === 'tinyhomes' ? 'active' : '' %>">
+        <i class="fa-solid fa-house"></i>
+        <span>Tiny homes</span>
+      </a>
+
+    </div>
+
+    <!-- ===== RIGHT SCROLL BUTTON ===== -->
+    <button class="nav-btn" onclick="scrollCategories(200)">
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+
+    <!-- ===== FILTER BUTTON (future use) ===== -->
+    <button class="filter-btn">
+      <i class="fa-solid fa-sliders"></i>
+      <span>Filters</span>
+    </button>
+
+    <!-- ===== GST TOGGLE (UI ONLY) ===== -->
+    <div class="tax-toggle">
+      <span>Display total before taxes</span>
+      <label class="switch">
+        <input type="checkbox" id="gstToggle">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+  </div>
+
+  <!-- =====================================================
+     LISTINGS GRID
+     Purpose:
+     - Display all (or filtered) listings
+     - Loop through `allListings` from backend
+====================================================== -->
+
+  <div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-1 g-4 pt-5 pb-5 ">
+
+    <% for (let listing of allListings) { %>
+
+      <div class="col">
+        <a href="/listings/<%= listing._id %>" class="card-link">
+
+          <div class="card h-100 text-white">
+
+            <!-- Listing Image -->
+            <img src="<%= listing.image.url %>" class="card-img" alt="Listing image">
+
+            <!-- Overlay Content -->
+            <div class="card-img-overlay d-flex flex-column justify-content-end overlay-bg">
+
+              <!-- Title -->
+              <h5 class="card-title">
+                <%= listing.title %>
+              </h5>
+
+              <!-- Location -->
+              <p class="card-text">
+                <%= listing.location %>, <%= listing.country %>
+              </p>
+
+              <!-- Price + GST Text -->
+              <p class="card-text fw-bold price">
+                ₹<%= listing.price.toLocaleString("en-IN") %>
+                  <span class="gst-text">18% GST included</span>
+              </p>
+
+            </div>
+          </div>
+
+        </a>
+      </div>
+
+      <% } %>
+
+  </div>

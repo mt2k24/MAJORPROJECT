@@ -1,0 +1,203 @@
+ body {
+     background: #f8f9fa;
+     min-height: 100vh;
+     padding: 40px 0;
+     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ }
+
+ .form-container {
+     max-width: 700px;
+     margin: 0 auto;
+     background: #ffffff;
+     border-radius: 12px;
+     padding: 40px;
+     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+     animation: slideUp 0.6s ease-out;
+ }
+
+ @keyframes slideUp {
+     from {
+         opacity: 0;
+         transform: translateY(30px);
+     }
+
+     to {
+         opacity: 1;
+         transform: translateY(0);
+     }
+ }
+
+ h2 {
+     color: #2c3e50;
+     font-weight: 700;
+     margin-bottom: 10px;
+     text-align: center;
+     font-size: 2rem;
+ }
+
+ .subtitle {
+     text-align: center;
+     color: #6c757d;
+     margin-bottom: 30px;
+     font-size: 0.95rem;
+ }
+
+ .form-label {
+     font-weight: 600;
+     color: #495057;
+     margin-bottom: 8px;
+     display: flex;
+     align-items: center;
+     gap: 8px;
+ }
+
+ .form-label i {
+     color: #6c757d;
+     font-size: 1rem;
+ }
+
+ .form-control {
+     border: 2px solid #e9ecef;
+     border-radius: 8px;
+     padding: 12px 16px;
+     font-size: 1rem;
+     transition: all 0.3s ease;
+     background: #ffffff;
+ }
+
+ .form-control:focus {
+     border-color: #495057;
+     box-shadow: 0 0 0 0.2rem rgba(73, 80, 87, 0.1);
+     background: #ffffff;
+     outline: none;
+ }
+
+ .form-control::placeholder {
+     color: #adb5bd;
+ }
+
+ textarea.form-control {
+     resize: vertical;
+     min-height: 100px;
+ }
+
+ .button-group {
+     display: flex;
+     gap: 12px;
+     margin-top: 30px;
+ }
+
+ .btn-primary {
+     background: #2c3e50;
+     border: none;
+     padding: 14px 40px;
+     font-size: 1.1rem;
+     font-weight: 600;
+     border-radius: 8px;
+     flex: 1;
+     transition: all 0.3s ease;
+     color: #ffffff;
+ }
+
+ .btn-primary:hover {
+     background: #1a252f;
+     transform: translateY(-2px);
+     box-shadow: 0 4px 12px rgba(44, 62, 80, 0.3);
+ }
+
+ .btn-secondary {
+     background: #6c757d;
+     border: none;
+     padding: 14px 40px;
+     font-size: 1.1rem;
+     font-weight: 600;
+     border-radius: 8px;
+     transition: all 0.3s ease;
+     color: #ffffff;
+     text-decoration: none;
+     display: inline-flex;
+     align-items: center;
+     justify-content: center;
+ }
+
+ .btn-secondary:hover {
+     background: #5a6268;
+     transform: translateY(-2px);
+     box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+     color: #ffffff;
+ }
+
+ .btn-primary:active,
+ .btn-secondary:active {
+     transform: translateY(0);
+ }
+
+ .mb-3 {
+     margin-bottom: 24px !important;
+     animation: fadeIn 0.5s ease-out backwards;
+ }
+
+ .mb-3:nth-child(1) {
+     animation-delay: 0.1s;
+ }
+
+ .mb-3:nth-child(2) {
+     animation-delay: 0.2s;
+ }
+
+ .mb-3:nth-child(3) {
+     animation-delay: 0.3s;
+ }
+
+ .mb-3:nth-child(4) {
+     animation-delay: 0.4s;
+ }
+
+ .mb-3:nth-child(5) {
+     animation-delay: 0.5s;
+ }
+
+ .mb-3:nth-child(6) {
+     animation-delay: 0.6s;
+ }
+
+ @keyframes fadeIn {
+     from {
+         opacity: 0;
+         transform: translateX(-20px);
+     }
+
+     to {
+         opacity: 1;
+         transform: translateX(0);
+     }
+ }
+
+ .row {
+     margin-left: -12px;
+     margin-right: -12px;
+ }
+
+ .row>div {
+     padding-left: 12px;
+     padding-right: 12px;
+ }
+
+ @media (max-width: 768px) {
+     .form-container {
+         padding: 30px 20px;
+         margin: 0 15px;
+     }
+
+     h2 {
+         font-size: 1.6rem;
+     }
+
+     .button-group {
+         flex-direction: column;
+     }
+
+     .btn-secondary {
+         width: 100%;
+     }
+ }
