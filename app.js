@@ -20,7 +20,7 @@ const ejsMate = require("ejs-mate");
  * 3️⃣ IMPORT AUTH, SESSION & UTILITIES
  ***************************************************/
 const session = require("express-session");
-const MongoStore = require("connect-mongo").default; // IMPORTANT for v6+
+const MongoStore = require("connect-mongo").default;
 const flash = require("connect-flash");
 
 const passport = require("passport");
@@ -37,21 +37,21 @@ const reviewsRouter = require("./routes/review");
 const userRouter = require("./routes/user");
 
 /***************************************************
- * 5️⃣ DATABASE CONFIG
+ * 5️⃣ DATABASE & SECRET CONFIG
  ***************************************************/
 const dbUrl = process.env.ATLASDB_URL;
 const sessionSecret = process.env.SECRET || "devsecret";
+const port = process.env.PORT || 8080;
 
 /***************************************************
- * 6️⃣ CONNECT TO MONGODB & START SERVER
- * (Server starts ONLY after DB connection)
+ * 6️⃣ DATABASE CONNECTION & SERVER START
  ***************************************************/
 mongoose.connect(dbUrl)
     .then(() => {
         console.log("✅ Connected to MongoDB");
 
-        app.listen(8080, () => {
-            console.log("🚀 Server running at http://localhost:8080/listings");
+        app.listen(port, () => {
+            console.log(`🚀 Server running on port ${port}`);
         });
     })
     .catch(err => {
@@ -66,9 +66,9 @@ app.set("view engine", "ejs");
 app.engine("ejs", ejsMate);
 
 // Middlewares
-app.use(express.urlencoded({ extended: true })); // form data
-app.use(express.json()); // JSON requests
-app.use(methodOverride("_method")); // PUT & DELETE
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 
 /***************************************************
@@ -77,12 +77,12 @@ app.use(express.static(path.join(__dirname, "public")));
 const store = MongoStore.create({
     mongoUrl: dbUrl,
     crypto: {
-        secret: process.env.sessionSecret,
+        secret: sessionSecret,
     },
-    touchAfter: 24 * 3600, // update session once per day
+    touchAfter: 24 * 3600,
 });
 
-store.on("error", function (err) {
+store.on("error", (err) => {
     console.log("❌ SESSION STORE ERROR:", err);
 });
 
@@ -91,12 +91,12 @@ store.on("error", function (err) {
  ***************************************************/
 const sessionOptions = {
     store,
-    secret: process.env.sessionSecret,
+    secret: sessionSecret,
     resave: false,
     saveUninitialized: false,
     cookie: {
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         httpOnly: true,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
     },
 };
 
@@ -104,7 +104,7 @@ app.use(session(sessionOptions));
 app.use(flash());
 
 /***************************************************
- * 🔟 PASSPORT AUTHENTICATION SETUP
+ * 🔟 PASSPORT AUTHENTICATION
  ***************************************************/
 app.use(passport.initialize());
 app.use(passport.session());
@@ -114,31 +114,38 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 /***************************************************
- * 1️⃣1️⃣ GLOBAL MIDDLEWARE (AVAILABLE IN ALL VIEWS)
+ * 1️⃣1️⃣ GLOBAL VARIABLES (ALL EJS FILES)
  ***************************************************/
 app.use((req, res, next) => {
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
-    res.locals.currUser = req.user; // logged-in user
+    res.locals.currUser = req.user;
     next();
 });
 
 /***************************************************
- * 1️⃣2️⃣ ROUTES
+ * 1️⃣2️⃣ ROOT ROUTE
+ ***************************************************/
+app.get("/", (req, res) => {
+    res.redirect("/listings");
+});
+
+/***************************************************
+ * 1️⃣3️⃣ ROUTES
  ***************************************************/
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
 app.use("/", userRouter);
 
 /***************************************************
- * 1️⃣3️⃣ HANDLE UNKNOWN ROUTES (404)
+ * 1️⃣4️⃣ HANDLE 404 (EXPRESS v5 SAFE)
  ***************************************************/
 app.use((req, res, next) => {
     next(new ExpressError(404, "Page Not Found"));
 });
 
 /***************************************************
- * 1️⃣4️⃣ CENTRAL ERROR HANDLER
+ * 1️⃣5️⃣ CENTRAL ERROR HANDLER
  ***************************************************/
 app.use((err, req, res, next) => {
     const { statusCode = 500 } = err;
